@@ -133,11 +133,14 @@ const ResultsPage = ({ navigation }: Props) => {
                 </Text>
 
                 <Slider
-                    style={styles.textinput}
+                    style={styles.slider}
                     minimumValue={vaList[0]}
                     maximumValue={vaList[vaList.length - 1]}
                     step={0.1}
                     value={currentVAState}
+                    maximumTrackTintColor={colorMap(currentVAState)}
+                    minimumTrackTintColor={colorMap(currentVAState)}
+                    thumbTintColor={colorMap(currentVAState)}
                     onValueChange={value => {
                         if (vaList.includes(value)) setCurrentVAState(value);
                         else {
