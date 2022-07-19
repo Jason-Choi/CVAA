@@ -26,4 +26,4 @@ export const SCREEN_HEIGHT = Platform.select<number>({
     ios: Dimensions.get('window').height,
 }) as number;
 
-export const URI = "115.145.36.213:8000";
+export const URI = '115.145.171.130:3000';
