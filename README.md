@@ -1,4 +1,4 @@
-# Visual Acuity Test with Mobile Devices
+# CVAA: Camera Visual Acuity Assement
 
 Jaehwan Lee & Jiwon Choi
 
