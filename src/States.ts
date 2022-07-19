@@ -16,3 +16,8 @@ export const response = atom<Character[]>({
   key: 'response',
   default: [],
 });
+
+export const pixelRatio = atom<number>({
+  key: 'pixelRatio',
+  default: 100,
+});

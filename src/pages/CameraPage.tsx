@@ -6,6 +6,7 @@ import { Button, Dimensions, StyleSheet, Text, View } from 'react-native';
 import Reanimated from 'react-native-reanimated';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { useRecoilState } from 'recoil';
+import { URI } from '../Constants';
 import { useIsForeground } from '../hooks/useIsForeground';
 import { Routes } from '../Routes';
 import { capturedPhoto, response } from '../States';
@@ -41,9 +42,9 @@ const CameraPage = ({ navigation }: Props) => {
             type: 'image/jpeg',
             uri: 'file://' + photo?.path,
         });
-
+        
         const res = await axios.post(
-            'http://115.145.36.213:8000/ocr_api',
+            `http://${URI}/ocr_api`,
             form,
             {
                 headers: {

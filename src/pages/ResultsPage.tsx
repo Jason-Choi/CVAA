@@ -3,14 +3,15 @@ import {
     Canvas,
     Group,
     Image,
-    Rect, useImage
+    Rect,
+    useImage,
 } from '@shopify/react-native-skia';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { useRecoilState } from 'recoil';
 import { Routes } from '../Routes';
-import { capturedPhoto, response } from '../States';
+import { capturedPhoto, response, pixelRatio } from '../States';
 
 import Slider from '@react-native-community/slider';
 import { scaleLinear } from 'd3-scale';
@@ -24,7 +25,7 @@ const ResultsPage = ({ navigation }: Props) => {
     const [selectedResponse, setSelectedResponse] = useState<Character[]>([]);
     const [capturedPhotoState] = useRecoilState(capturedPhoto);
     const [currentVAState, setCurrentVAState] = useState(0);
-    const [isSelected, setIsSelected] = useState(false);
+    const [pixelRatioState, setPixelRatioState] = useRecoilState(pixelRatio);
     const picture = useImage('file://' + capturedPhotoState?.path);
 
     const vaList = useMemo(
@@ -76,8 +77,17 @@ const ResultsPage = ({ navigation }: Props) => {
             height: 150,
             alignItems: 'center',
         },
+        textinput: {
+            width: size.windowWidth,
+            height: 50,
+            borderColor: 'gray',
+            borderWidth: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'black',
+        },
     });
-    console.log(currentVAState, vaList);
+    console.log(currentVAState, pixelRatioState, vaList);
     return (
         <View>
             <View style={styles.container}>
@@ -117,17 +127,17 @@ const ResultsPage = ({ navigation }: Props) => {
                         color: colorMap(currentVAState),
                     }}
                 >
-                    {currentVAState.toString().slice(0, 3)}
+                    {`${((currentVAState * pixelRatioState) / 100)
+                        .toString()
+                        .slice(0, 3)}`}
                 </Text>
+
                 <Slider
-                    style={styles.slider}
+                    style={styles.textinput}
                     minimumValue={vaList[0]}
                     maximumValue={vaList[vaList.length - 1]}
                     step={0.1}
                     value={currentVAState}
-                    maximumTrackTintColor={colorMap(currentVAState)}
-                    minimumTrackTintColor={colorMap(currentVAState)}
-                    thumbTintColor={colorMap(currentVAState)}
                     onValueChange={value => {
                         if (vaList.includes(value)) setCurrentVAState(value);
                         else {
@@ -136,6 +146,13 @@ const ResultsPage = ({ navigation }: Props) => {
                                 ? setCurrentVAState(vaList[index - 1])
                                 : setCurrentVAState(vaList[index]);
                         }
+                    }}
+                />
+                <TextInput
+                    style={styles.slider}
+                    value={`${pixelRatioState}`}
+                    onChangeText={text => {
+                        setPixelRatioState(Number(text));
                     }}
                 />
             </View>
